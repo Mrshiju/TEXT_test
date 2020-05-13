@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>中心原点</title>
+    <style>
+        .box {
+            width: 100px;
+            height: 160px;
+            border: 2px solid #faa;
+            margin: 50px 150px;
+            /*padding:30px;*/
+            box-shadow: 5px 5px 5px #ddd;
+        }
+
+        .bo {
+            width: 100px;
+            height: 160px;
+            background-color: rgba(0, 22, 255, 0.3);
+            border: 2px solid red;
+            margin: auto;
+            transform: rotate(45deg);
+        }
+
+        .box12 {
+            /*transform-origin:0 0;*/
+            transform-origin: top left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="box12 bo">测试目标1（左上角顶点）</div>
+    </div>
+
+    <script>
+
+        function queryURLParams(url) {
+            let result = {},
+                reg1 = /([^?=&#]+)=([^?=&#]+)/g,
+                reg2 = /#([^?=&#]+)/g;
+            url.replace(reg1, (n, x, y) => result[x] = y);
+            url.replace(reg2, (n, x) => result['HASH'] = x);
+            return result.uid;
+        }
+
+        let bb = 'http://shop.hanlonglyt.com/yungou/reactShop/?from=singlemessage#/share?uid=1A9FAC76AAB52420EDFAD699E3E3D1386C4611A91A496AAAD971EBAAC425630F'
+        let aa = 'http://www.zhufengpeixun.cn/index.html?lx=1&name=zhufeng&teacher=aaa#box';
+        // let paramsObj = queryURLParams(aa);
+        let paramsObj1 = queryURLParams(aa);
+        // console.log(paramsObj);
+        console.log(paramsObj1);
+
+
+        var a = 0;
+        if (true) {
+           
+            a = 1;
+           
+            function a() { };
+        
+            a = 21;
+            
+
+            a = 31;
+            console.log('内部' + a);
+        }
+        console.log('外部' + a);
+
+      
+        var a = 0;
+        console.log('====================================');
+        console.log(a);
+        console.log('====================================');
+        if (true) {
+            console.log(a, window.a);// 函数提升，是块级作用域，输出 function a 和 0
+            a = 1;  // 取作用域最近的块级作用域的 function a ,且被重置为 1了，本质又是一个 变量的赋值。
+            console.log(a, window.a);// a 是指向块级作用域的 a, 输出 1 和 0
+            function a() { 
+                console.log('====================================');
+                console.log(12313213);
+                console.log('====================================');
+            } // 函数的声明，将执行函数的变量的定义同步到函数级的作用域。
+            console.log(a, window.a);// 输出 1 和 1
+            a = 21; // 仍然是函数定义块级作用域的 a ,重置为 21
+            console.log(a, window.a); // 输出为函数提升的块级作用域的 a, 输出 21，1
+            console.log("里面", a);
+            a = 31;
+        }
+        console.log("外部", a);
+        
+
+    </script>
+</body>
+
+</html>

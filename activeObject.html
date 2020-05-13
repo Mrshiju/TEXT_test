@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    console.log('====================================');
+    console.log(window.ActiveXObject());
+    console.log('====================================');
+function getusername()       
+{      
+    var WshNetwork = new ActiveXObject("WScript.Network");      
+    alert("Domain = " + WshNetwork.UserDomain);       
+    alert("Computer Name = " + WshNetwork.ComputerName);       
+    alert("User Name = " + WshNetwork.UserName);        
+}    
+getusername()  
+function enumFolders(para){  
+     var fso = new ActiveXObject("Scripting.FileSystemObject");  
+     var fldr = fso.GetFolder(para);  
+     var file = new Enumerator(fldr.files);  
+     var fileArr = [];  
+     for (; !file.atEnd(); file.moveNext()){  
+         var fileStr = String(file.item());  
+         fileArr.push(String(file.item()).substring(fileStr.lastIndexOf("\\")+1,fileStr.length));  
+     }  
+       
+     alert(fileArr.join(" "));  
+}  
+enumFolders('C:\Users\Administrator.DESKTOP-19C67CS\Desktop')
+</script>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<div onclick="onde()">
+
+    点击
+</div>
+
+<body>
+    <script src="./data.js"></script>
+    <script>
+
+        function run() {
+
+            console.log('====================================');
+            console.log(1231);
+            console.log('====================================');
+
+        }
+
+
+        this.callback = (e) => {
+         
+            console.log('====================================');
+            console.log(e);
+            console.log('====================================');
+        }
+        let arr = [1, 5, 7, 9, 55]
+       
+        console.log(arr instanceof Array)
+        console.log(arr.constructor == Array)
+        console.log(Object.prototype.toString.call(arr))
+        console.log(Array.isArray(arr))
+        
+         
+
+       
+    </script>
+</body>
+
+</html>

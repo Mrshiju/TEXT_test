@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        .upload-box {
+            height: 300px;
+            background: #eee;
+            padding: 10px;
+        }
+
+        .upload-box-p .plupload-preview {
+            flex-wrap: wrap;
+            /*height:60%;*/
+            list-style: none;
+            display: none;
+        }
+
+        .upload-box-p {
+            border: 1px dashed #ada2a2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .upload-box-desc {
+            color: #888;
+            font-size: 2em;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="dir" width="800" height="800" style="border:1px solid #ccc">
+    </canvas>
+
+
+    <div class="upload-box-p" id="uploadBoxArea">
+        <div class="upload-box-btn">
+            <div><label class="upload-box-desc">您也可以拖拽文件到虚线框中进行转换</label></div> <span> <button type="button"
+                    data-titleback="false" id="plupload-avatar" class="btn btn-success btn-lg plupload"
+                    data-input-id="c-avatar" data-mimetype="application/octet-stream" data-multiple="false"
+                    data-preview-id="p-avatar"> <i class="fa fa-upload"></i> 点此上传word文件 </button> </span>
+        </div>
+        <input type="file" >
+    </div>
+
+    <script>
+
+        var dz = document.getElementById('uploadBoxArea');
+        dz.ondragover = function (ev) {  //阻止浏览器默认打开文件的操作 
+            ev.preventDefault();  //拖入文件后边框颜色变红  
+            this.style.borderColor = 'red';
+        }
+        dz.ondragleave = function () {  //恢复边框颜色 
+            this.style.borderColor = 'gray';
+        }
+        dz.ondrop = function (ev) {  //恢复边框颜色  
+            this.style.borderColor = 'gray';  //阻止浏览器默认打开文件的操作 
+            ev.preventDefault();
+            var files = ev.dataTransfer.files;
+            if (files.length > 0) {  //fastadmin框架调用的真实文件上传方法，对应改成你自己的逻辑  
+                Upload.api.send(files[0], function (data) { Controller.uploadSuccess(data); });
+            }
+        }
+
+
+
+        var canvas = document.getElementById("dir");
+        var context = canvas.getContext("2d");
+
+        var gridY = 10,
+            gridX = 10,
+            colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5',
+                '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50',
+                '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800',
+                '#FF5722'
+            ],
+            durVal = 0.1;
+
+
+        // 粒子
+        function Particle(x, y) {
+            this.x = x;
+            this.y = y;
+            this.color = colors[Math.floor(Math.random() * colors.length)]; //'bleack'//
+            this.futurRadius = randomInt(1.1, 5.1);
+            this.radius = 1.1;
+            this.dying = false;
+            this.base = [x, y];
+
+            this.drawParticle = function () {
+
+                // 当前粒子变小到一定程度之后，每次将它的半径+0.1，使其慢慢变大
+                if (this.radius < this.futurRadius && this.dying === false) {
+                    this.radius += durVal;
+                } else { //粒子已经到达最大状态
+                    this.dying = true; //表示粒子还处于show状态
+                }
+
+                //每次-0.1
+                if (this.dying) {
+                    this.radius -= durVal;
+                }
+                // 画粒子形状
+                context.save();
+                context.fillStyle = this.color;
+                context.beginPath();
+                context.fillRect(this.x, this.y, this.futurRadius, this.futurRadius)
+                context.closePath();
+                context.fill();
+                context.restore();
+
+                //将消失的粒子重置最初的状态
+                if (this.y < 0 || this.radius < 1) {
+                    this.x = this.base[0];
+                    this.y = this.base[1];
+                    this.dying = false;
+                    this.futurRadius = randomInt(1.1, 5.1);
+                }
+            }
+        }
+
+        function Shape(x, y, texte) {
+            this.x = x;
+            this.y = y;
+            this.size = 200;
+            this.text = texte;
+            this.placement = [];
+        }
+
+
+        Shape.prototype.getValue = function () {
+            context.textAlign = "center";
+            context.font = this.size + "px arial";
+            context.fillText(this.text, this.x, this.y);
+
+            let idata = context.getImageData(0, 0, canvas.width, canvas.height); // 获取 canvas指定范围内的 像素数组
+            let buffer32 = new Uint32Array(idata.data.buffer); // 转成32位的数组
+
+            // 遍历所有的数组 
+            for (var j = 0; j < canvas.height; j += gridY) {
+                for (var i = 0; i < canvas.width; i += gridX) {
+                    if (buffer32[j * canvas.width + i]) {
+                        // 放入粒子对象
+                        var ball = new Particle(i, j);
+                        this.placement.push(ball);
+                    }
+                }
+            }
+
+            context.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function randomInt(min, max) {
+            return min + Math.random() * (max - min + 1);
+        }
+
+        var word = new Shape(canvas.width / 2, canvas.height / 2, '人在江湖')
+        word.getValue
+
+            (function drawFrame() {
+                window.requestAnimationFrame(drawFrame);
+                context.clearRect(0, 0, canvas.width, canvas.height);
+
+                for (var i = 0; i < word.placement.length; i++) {
+                    //调用particle对像的drawParticle方法，开始画布上画
+                    word.placement[i].drawParticle();
+                }
+
+            }())
+
+
+
+        function parseUrl(str) {
+            return str.split('&').reduce((obj, pair) => {
+                const [key, value] = pair.split('=');
+                if (!value) {
+                    return obj;
+                }
+                // obj[key] = value   废弃废弃废弃
+
+                // 深入到obj的内部去搞
+                console.log(key);
+
+                deepObj(obj, key.split(/[\[\]]/g).filter(v => v), value);
+                return obj;
+            }, {});
+        }
+        // 深度设置对象
+        function deepObj(obj, keys, value) {
+            // 下面我们所有涉及注释部分，都用fe[pro]来说明一下
+
+            // fe[pro]被正则处理，匹配[和]，以[或]分割出来的数组是这样的['fe', 'pro', '']
+            // 然后我们只取非空值部分，就用filter过滤了一下，得到['fe', 'pro']
+            // console.log(keys);  // ['fe', 'pro']
+
+            let i = 0;
+            for (; i < keys.length - 1; i++) {
+                let key = keys[i];
+                // key值为fe
+                if (!obj[key]) {    // obj中没有fe
+                    obj[key] = {};  // { fe: {} }
+                }
+                // 深入到obj的下一层
+                obj = obj[key];     // 引用fe这个对象{}
+            }
+            // 相当于在fe对象里加属性，fe:{pro: 'news'}
+            console.log(keys[i]);
+
+            obj[keys[i]] = value;
+        }
+
+
+
+        // 测试用例3
+        let s3 = 'q=nba&fe[pro]=news&fe[pid]=result';
+        console.log(parseUrl(s3)); // {q:'nba',fe:{pro:'news', pid:'result'}}
+    </script>
+</body>
+
+</html>

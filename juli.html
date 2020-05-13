@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box{
+            border: 1px solid black;
+            width: 100%;
+            height: 200px;
+            overflow: auto;
+        }
+        .son{
+            border: 1px red solid;
+            width: 100%;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="son"></div>
+    </div>
+</body>
+<script>
+    let scr = document.querySelector('.box');
+    window.onscroll = function(e){
+        console.log('====================================');
+        console.log(111,e);
+        console.log('====================================');
+        console.log('====================================');
+        console.log(scr.scrollTop,scr.clientHeight,scr.scrollHeight);
+        console.log('====================================');
+    }
+    // scr.onscroll = function(){
+    //     console.log('====================================');
+    //     console.log(1233);
+    //     console.log('====================================');
+    //     console.log('====================================');
+    //     console.log(scr.scrollTop,scr.clientHeight,scr.scrollHeight);
+    //     console.log('====================================');
+    // }
+    
+    scr.addEventListener('scroll',function(){
+        console.log('====================================');
+        console.log(1233);
+        console.log('====================================');
+        console.log('====================================');
+        console.log(scr.scrollTop,scr.clientHeight,scr.scrollHeight);
+        console.log('====================================');
+    })
+</script>
+</html>

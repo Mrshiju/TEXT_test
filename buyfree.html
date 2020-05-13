@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>抢购</title>
+  <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+  <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+  <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
+</head>
+<style>
+  html,
+  body {
+    width: 100%;
+  }
+
+  #app {
+    width: 100%;
+  }
+
+  .pro_list {
+    width: 100%;
+    display: flex;
+    text-align: center;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  .list {
+    text-align: center;
+  }
+
+  .wantbuy {
+    color: white;
+    background: red;
+    padding: 3px 20px;
+    width: 30%;
+    border-radius: 8px;
+  }
+</style>
+
+<body>
+
+  <div id="app"></div>
+
+  <script type="text/babel">
+    var BASEURL = 'http://192.168.1.162:8080'
+    let uid = 4;
+    let uuid = ''
+    let goodsID = ''
+    class Content extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          list: []
+        };
+      }
+      componentWillMount() {
+        this.getList()
+      }
+      getList = () => {
+        $.ajax({
+          url: `${BASEURL}/api/goods/getAllGoodsVO`,
+          type: "get",
+          success: (data) => {
+            this.setState({
+              list: data.data
+            })
+          },
+          error: function () {
+
+          }
+        });
+      }
+
+      // 购买
+      wantbuy = (e) => {
+        goodsID = e
+        let data = {
+          goodsId: goodsID,
+          userId: uid
+        }
+        $.ajax({
+          url: `${BASEURL}/api/order/getTruePath`,
+          headers: {
+
+          },
+          contentType: "application/json",
+          type: "post",
+          data: JSON.stringify(data),
+          success: (data) => {
+            if (data.status == true) {
+              uuid = data.message
+              $.ajax({
+                url: `${BASEURL}/api/order/seckill`,
+                headers: {
+                },
+                type: "post",
+                contentType: "application/json",
+                data: JSON.stringify({
+                  goodsId: goodsID,
+                  userId: uid,
+                  path: data.message
+                }),
+                success: (data) => {
+                  if (data.status == true) {
+                    this.order()
+                  } else {
+                    alert(data.message)
+                  }
+                },
+              })
+            } else {
+              alert(data.message)
+            }
+          },
+          error: function () {
+
+          }
+        })
+      }
+      /* 订单号 */
+      order = () => {
+        let getOrder =
+          setInterval(() => {
+            $.ajax({
+              url: `${BASEURL}/api/order/result`,
+              headers: {
+
+              },
+              type: "post",
+              data: JSON.stringify({
+                userId: uid,
+                goodsId: goodsID,
+              }),
+              contentType: "application/json",
+              success: (data) => {
+                if (data.message == '秒杀成功') {
+                  alert('抢购成功')
+                  clearInterval(getOrder)
+                }
+              },
+              error: function () {
+
+              }
+            })
+
+          }, 1000)
+      }
+      orderResult = async () => {
+        let data;
+        await $.ajax({
+          url: `${BASEURL}/api/order/result`,
+          headers: {
+
+          },
+          type: "post",
+          data: JSON.stringify({
+            userId: uid,
+            goodsId: goodsID,
+          }),
+          contentType: "application/json",
+          success: (data) => {
+            console.log(data);
+            data = data
+            return data
+          },
+          error: function () {
+
+          }
+        })
+        return data
+      }
+      render() {
+        return (
+          <div className='pro_list'>
+            {
+              this.state.list.map((item, index) => (
+                <div key={item.goodsId} className='list'>
+                  <h4>{item.goodsName}</h4>
+                  <img src={'.' + item.goodsImg} alt="" />
+                  <p>{item.goodsDetail}</p>
+                  <span className='wantbuy' onClick={() => this.wantbuy(item.goodsId)}>想要</span>
+                  <div><span style={{ color: 'red' }}>￥{item.seckilPrice}</span><span>￥{item.goodsPrice}</span></div>
+                </div>
+              ))
+            }
+          </div>
+        );
+
+      }
+    }
+
+
+    ReactDOM.render(
+
+      <Content />,
+      document.getElementById('app')
+    );
+  </script>
+
+</body>
+
+</html>

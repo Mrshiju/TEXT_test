@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ddd</title>
+</head>
+
+<body>
+  <div>
+
+    <p>d页面</p>
+
+  </div>
+  <input type="text" id="input_test">
+  <p class="input_shuch"></p>
+  <form id="upload" enctype="multipart/form-data" method="post">
+    <input type="file" name="file" id="pic" />
+    <input type="button" value="提交" onclick="uploadPic();" />
+    <span class="showUrl"></span>
+    <img src="" class="showPic" alt="">
+  </form>
+</body>
+<script>
+  var D = document.querySelector("div");
+
+  D.onclick = function () {
+    location.href = "./a.html?pic=213212"
+  }
+    ; (function () {
+
+
+      var inputs = document.querySelector("#input_test");
+      var pText = document.querySelector(".input_shuchu");
+      var obj = {};
+      var text = new Proxy(obj, {
+        set: function (target, key) {
+          console.log(target[key]);
+
+        },
+        get: function (target, key) {
+          if (key) {
+
+          }
+          console.log(target, key);
+
+        }
+      })
+
+      inputs.addEventListener("keyup", function (e) {
+        text.text = e.target.value
+      })
+    })()
+
+    ; (function () {
+
+      var obj = { 1: 22, 2: 55, 5: 4444 };
+      let objList = [22, 55, null, null, 4444, null, null, null];
+
+      let arrList = new Array(12);
+      console.log(obj);
+
+      arrList.fill(null).map(function (item, index) {
+        console.log(item, index);
+
+
+        arrList[index] = obj[index + 1] || null
+      })
+      console.log('====================================');
+      console.log(arrList);
+      console.log('====================================');
+    })()
+
+    ; (function () {
+      let arr1 = [1, 2, 2, 3];
+      var arr2 = [2, 2, 4];
+      var arr3 = [2, 2]
+      let arr = [];
+      //并集
+      arr = [...new Set([...arr1, ...arr2])]
+      console.log(arr);
+      //交集
+      let unarr = [...arr1].filter(e => arr3.includes(e))
+      console.log(unarr);
+    })()
+
+    ; (function () {
+      function getRandomArray() {
+        var array = [];
+        while (array.length < 10) {
+          var random = Math.floor(Math.random() * 100) + 1;
+          if (array.indexOf(random) < 0) {
+            array.push(random);
+          }
+        }
+        return array;
+      }
+      let arr1 = getRandomArray();
+      // var arr1 = [2,3,10,15,35,36,45,49,88];
+
+      var arr = [];
+      arr1 = arr1.sort((a, b) => {
+        return a > b
+      })
+
+      arr1.forEach(function (item) {
+        var index = parseInt(item / 10);
+        if (!arr[index]) {
+          arr[index] = [];
+        }
+        arr[index].push(item)
+
+      })
+      console.log(arr);
+
+    })()
+
+    ; (function () {
+      //大小写转行
+      var aaaa = "aBc";
+      let c = aaaa.replace(/(\w)/g, b => {
+        b = b == b.toUpperCase() ? b.toLowerCase() : b.toUpperCase()
+        return b
+      });
+      console.log(c);
+    })()
+
+    ; (function () {
+
+    })()
+
+    ; (function () {
+
+      //1-10000对称数
+      var result = [];
+      for (let i = 1; i < 10; i++) {
+        result.push(11 * i);                  //两位数集合
+        for (let j = 1; j < 10; j++) {
+          result.push(i * 101 + j * 10)     //三位集合
+          result.push(i * 1001 + j * 110)    //四位集合
+
+        }
+      }
+      console.log('====================================');
+      console.log(result);
+      console.log('====================================');
+    })()
+
+    ; (function () {
+      //让 0 移到最后
+      var arr = [1, 4, 0, 0, 4, 0, 9, 10, 5];
+      let i = 0;
+      let j = 0;
+      while (j < arr.length) {
+        if (arr[i] !== 0) {
+          i++;
+        } else if (arr[j] !== 0) {
+          [arr[i], arr[j]] = [arr[j], arr[i]]
+          i++;
+        }
+
+        j++;
+        console.log("i:" + i + "j:" + j);
+
+      }
+      console.log('====================================');
+      console.log(arr);
+      console.log('====================================');
+    })()
+
+    ; (function () {
+      let list = [
+        { id: 1, name: 'boss', parentId: 0 },
+        { id: 2, name: 'lily', parentId: 1 },
+        { id: 3, name: 'jack', parentId: 1 },
+        { id: 4, name: 'john', parentId: 2 },
+        { id: 5, name: 'boss2', parentId: 0 },];
+      function listToTree(oldArr) {
+        oldArr.forEach(element => {
+          let parentId = element.parentId;
+          if (parentId !== 0) {
+            oldArr.forEach(ele => {
+              if (ele.id == parentId) { //当内层循环的ID== 外层循环的parendId时，（说明有children），需要往该内层id里建个children并push对应的数组；
+                if (!ele.children) {
+                  ele.children = [];
+                }
+                ele.children.push(element);
+              }
+            });
+          }
+        });
+        console.log(oldArr) //此时的数组是在原基础上补充了children;
+        oldArr = oldArr.filter(ele => ele.parentId === 0); //这一步是过滤，按树展开，将多余的数组剔除；
+        console.log(oldArr)
+        return oldArr;
+      }
+      listToTree(list);
+
+
+    })()
+
+    ; (function () {
+      const fn = (data, value) => {
+        let res = []
+        const dfs = (arr, temp = []) => {
+          for (const node of arr) {
+            if (node.children) {
+              dfs(node.children, temp.concat(node.id))
+            } else {
+              if (node.id === value) {
+                res = temp
+              }
+              return
+            }
+          }
+        }
+        dfs(data)
+        return res
+      }
+
+    })()
+
+    ; (function () {
+      let arr = [[1], [1, 2], [3, 4, 5], [1, 7, 10, 19], [2, 88, 6, 3, 1]]
+      let n = arr.length;
+      var ss = [];
+      let copy = [];
+      function getsum(arr) {
+        for (let i = 0; i < n; i++) {
+          ss = [];
+          for (let j = 0; j < i + 1; j++) {
+            if (i == 0 && j == 0) {
+              ss.push(arr[i][j])
+            } else if (i == 1) {
+              ss.push(arr[i][j] + copy[0])
+            } else {
+              if (j == 0) {
+                ss.push(arr[i][j] + copy[0])
+              } else if (j == arr[i].length - 1) {
+                ss.push(arr[i][j] + copy[copy.length - 1])
+              } else {
+                ss.push(arr[i][j] + copy[j - 1])
+                ss.push(arr[i][j] + copy[j])
+              }
+
+            }
+            if (j == i) {
+              copy = [...ss]
+              console.log(copy)
+            }
+
+          }
+        }
+      }
+      getsum(arr)
+      console.log(Math.max(...copy))
+    })()
+    ; (function () {
+      // 不能使用任何循环控制语句和迭代器的情况下实现一个0到1000的数组赋值。
+
+
+
+      //    let arr =  Object.keys(new Array(1000).fill())
+
+
+      let arr = new Array(1000).fill()
+      arr = Object.keys(arr)
+      console.log('====================================');
+      console.log(arr);
+      console.log('====================================');
+    })()
+
+    ; (function () {
+      let arr = [
+        [1],
+        [1, 2],
+        [3, 4, 5],
+        [1, 7, 10, 19],
+        [2, 88, 6, 3, 1],
+        [4, 8, 9, 7, 45, 5]]
+
+
+      // [111]
+      // 1: (2)[109, 110]
+      // 2: (3)[107, 108, 72]
+      // 3: (4)[98, 104, 58, 67]
+      // 4: (5)[10, 97, 15, 48, 46] 
+      // 5: (6)[4, 8, 9, 7, 45, 5]
+      // let arr = [[5],[2,5],[1,6,3],[1,3,5,9]];
+      let n = arr.length, dp = [];
+      let m = n - 1;
+      dp[m] = [...arr[m]];
+
+      for (let a = m - 1; a >= 0; a--) {
+        dp[a] = []
+        for (let b = 0; b <= a; b++) {
+          dp[a][b] = arr[a][b] + Math.max(dp[a + 1][b], dp[a + 1][b + 1])
+        }
+      }
+      let max = dp[0][0]
+      console.log('====================================');
+      console.log(dp, max);
+      console.log('====================================');
+    })()
+</script>
+
+</html>

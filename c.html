@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ccc</title>
+</head>
+<body>
+    <div>
+
+        <p>c页面</p>
+    </div>
+</body>
+<script>
+    var  C = document.querySelector("div");
+    let numberOfEntries = window.history.length;
+    console.log(numberOfEntries);
+    console.log(window.history,window.location);
+    
+    C.onclick = function(){
+        location.replace("./b.html")
+    }
+</script>
+</html>

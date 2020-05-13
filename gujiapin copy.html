@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link href="https://cdn.bootcss.com/weui/2.1.2/style/weui.min.css" rel="stylesheet" />
+  <title>Skeletons</title>
+  <style>
+    body {
+      overflow: hidden;
+    }
+
+    .container {
+      border: 1px #ccc solid;
+      width: 90%;
+      margin: 100px auto;
+    }
+
+    .form-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0 auto;
+      text-align: center;
+      table-layout: fixed;
+    }
+
+    .form-table th {
+      border-left: none;
+      border-top: none;
+      border-right: 1px #ccc solid;
+      border-bottom: 1px #ccc solid;
+      background: #F3F3F3;
+    }
+
+    .form-table td {
+      border-left: none;
+      border-top: none;
+      border-bottom: 1px #ccc solid;
+      border-right: 1px #ccc solid;
+    }
+
+    .fixed-thead,
+    .fixed-tfoot {
+      display: block;
+      /*width: 99%;*/
+      width: -webkit-calc(100% - 17px);
+      width: -moz-calc()(100% - 17px);
+      width: calc(100% - 17px);
+      height: 50px;
+    }
+
+    .fixed-tfoot tr td {
+      background: #F3F3F3;
+      border-bottom: none;
+    }
+
+    .fixed-thead tr,
+    .fixed-tfoot tr {
+      width: 100%;
+      height: 50px;
+      line-height: 50px;
+      display: block;
+    }
+
+    .fixed-thead tr th,
+    .fixed-tfoot tr td {
+      float: left;
+      display: block;
+      width: 25%;
+      height: 50px;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .scroll-tbody {
+      display: block;
+      height: 306px;
+      overflow: auto;
+      width: 100%;
+    }
+
+    .scroll-tbody tr {
+      width: 100%;
+      display: block;
+      height: 40px;
+      line-height: 40px;
+    }
+
+    .scroll-tbody tr td {
+      float: left;
+      display: block;
+      width: 25%;
+    }
+
+    .form-table .scroll-tbody tr:nth-child(odd) td {
+      background-color: #ECE9D8;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    　　<table class="form-table" cellpadding="0" cellspacing="0">
+      　　　　<thead class="fixed-thead" id="head">
+        　　　　　　<tr>
+          　　　　　　　　<th>序号</th>
+          　　　　　　　　<th>姓名</th>
+          　　　　　　　　<th>性别</th>
+          　　　　　　　　<th>年龄</th>
+          　　　　</tr>
+        　 　</thead>
+      　　　<tbody class="scroll-tbody" id="body">
+        　　　　　　<tr>
+          　　　　 　　　 <td>1</td>
+          　　　　　　　　<td>张三</td>
+          　　　　　　　　<td>男</td>
+          　　　　　　　　<td>18</td>
+          　　　　　　</tr>
+
+      </tbody>
+
+      　　　<tfoot class="fixed-tfoot">
+        　　　　　　<tr>
+          　　　　　　　　<td>序号</td>
+          　　　　　　　　<td>姓名</td>
+          　　　　　　　　<td>性别</td>
+          　　　　　　　　<td>年1龄</td>
+          　　　　　　　　</tr>
+        　　 </tfoot>
+
+    </table>
+
+  </div>
+</body>
+
+</html>

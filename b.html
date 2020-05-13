@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bbb</title>
+</head>
+<body>
+    <div>
+
+        <p>b页面</p>
+    </div>
+    <div>
+        <iframe src="" frameborder="0"></iframe>
+    </div>
+</body>
+<script>
+    var  B = document.querySelector("div");
+    var  cc = window.location.href;
+    console.log('====================================');
+    console.log(cc);
+    console.log('====================================');
+    B.onclick = function(){
+       location.replace('./c.html?id=2')  
+    }
+</script>
+</html>
